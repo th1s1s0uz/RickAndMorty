@@ -1,118 +1,91 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import * as React from 'react';
+import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './src/screens/Home';
+import EpisodeDetails from './src/screens/EpisodeDetails';
+import Character from './src/screens/Character';
+import Fav from './src/screens/Fav';
+import SplashScreen from './src/screens/SplashScreen';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  HomeHeader,
+  EpisodeDetailsHeader,
+  CharacterHeader,
+  FavHeader,
+  SplashScreenHeader,
+} from './compenents/Header';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
+export const navigationRef = createNavigationContainerRef();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const App = () => {
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const [routeName, setRouteName] = React.useState<string | undefined>();
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <Provider store={store}>
+      <NavigationContainer
+         ref={navigationRef}
+         onReady={() => {
+          setRouteName(navigationRef.getCurrentRoute()?.name);
+        }}
+        onStateChange={async () => {
+          const previousRouteName = routeName;
+          const currentRouteName = navigationRef.getCurrentRoute()?.name;
+          console.log('Previous Route:', previousRouteName); 
+          console.log('Current Route:', currentRouteName);
+          setRouteName(currentRouteName);
+  
+          await analytics().logScreenView({
+            screen_name: currentRouteName,
+            screen_class: currentRouteName,
+            previous_screen_name: previousRouteName,
+          });
+        }}>
+        <Stack.Navigator initialRouteName="Splash">
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              header: HomeHeader,
+            }}
+          />
+          <Stack.Screen
+            name="EpisodeDetails"
+            component={EpisodeDetails}
+            options={({ route }) => ({
+              header: () => <EpisodeDetailsHeader route={route} />,
+            })}
+          />
+          <Stack.Screen
+            name="Character"
+            component={Character}
+            options={({ route }) => ({
+              header: () => <CharacterHeader route={route} />,
+            })}
+          />
+          <Stack.Screen
+            name="Fav"
+            component={Fav}
+            options={{
+              header: FavHeader,
+            }}
+            initialParams={{ favorites: [] }}
+          />
+          <Stack.Screen
+            name="Splash"
+            component={SplashScreen}
+            options={{
+              header: SplashScreenHeader,
+            }}
+            initialParams={{ favorites: [] }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
