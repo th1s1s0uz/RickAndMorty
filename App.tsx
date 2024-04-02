@@ -15,6 +15,8 @@ import {
   FavHeader,
   SplashScreenHeader,
 } from './compenents/Header';
+import { firebase } from '@react-native-firebase/analytics';
+import { StatusBar } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -38,7 +40,7 @@ const App = () => {
           console.log('Current Route:', currentRouteName);
           setRouteName(currentRouteName);
   
-          await analytics().logScreenView({
+          await firebase.analytics().logScreenView({
             screen_name: currentRouteName,
             screen_class: currentRouteName,
             previous_screen_name: previousRouteName,

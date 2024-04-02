@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text, Image } from 'react-native';
 import { Colors } from '../src/assets/color';
 
 export const CharacterItem = ({ character, handleCharacterPress, handleAddToFavorites, handleRemoveFromFavorites, favorites }) => (
+  <View style={{ justifyContent:'center', width: '50%'}}>
   <TouchableOpacity onPress={() => handleCharacterPress(character)}>
     <View style={styles.characterContainer}>
       <Image source={{ uri: character.image }} style={styles.characterImage} />
@@ -23,6 +24,7 @@ export const CharacterItem = ({ character, handleCharacterPress, handleAddToFavo
       </View>
     </View>
   </TouchableOpacity>
+  </View>
 );
 
 const styles = {
@@ -34,7 +36,7 @@ const styles = {
     padding: 10,
     margin: 10,
     alignItems: 'center',
-    width: 160,
+    width: '90%',
     height: 310,
     backgroundColor: Colors.palegreen
     
@@ -67,7 +69,7 @@ const styles = {
   favButton: {
     marginTop: 10,
     backgroundColor: Colors.pastelgreen,
-    padding: 5,
+    padding: 10,
     borderRadius: 5,
   },
   favText: {

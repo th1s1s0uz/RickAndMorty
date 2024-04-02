@@ -99,7 +99,7 @@ const styles = {
     alignItems: 'center'
   },
   characterList: {
-    width: '90%'
+    width: '100%'
   },
 };
 export default EpisodeDetails;

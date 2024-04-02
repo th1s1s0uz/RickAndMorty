@@ -9,19 +9,23 @@ const CustomAppBar = ({ title, showBackButton, showFavButton }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{position: 'absolute', left: 20}}>
       {showBackButton && (
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
       )}
+      </View>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>{title}</Text>
       </View>
+      <View style={{position: 'absolute', right: 20}}>
       {showFavButton && (
         <TouchableOpacity onPress={() => navigation.navigate('Fav')}>
           <Text style={styles.favText}>Fav</Text>
         </TouchableOpacity>
       )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -45,12 +49,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   favText: {
-    color: Colors.pastelgreen,
+    color: Colors.black,
     fontSize: 16,
     fontWeight: '500'
   },
   backText: {
-    color: Colors.pastelgreen,
+    color: Colors.black,
     fontSize: 16,
     fontWeight: '500'
   },

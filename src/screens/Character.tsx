@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Colors } from '../assets/color';
 
@@ -49,6 +49,5 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
 });
-
 
 export default Character;

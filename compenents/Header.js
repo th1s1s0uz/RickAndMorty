@@ -14,7 +14,6 @@ export const HomeHeader = () => {
       title="Home"
       showBackButton={false}
       showFavButton={true}
-      onFavPress={() => console.log('Fav button pressed')}
     />
   );
 };
@@ -25,7 +24,6 @@ export const EpisodeDetailsHeader = ({ route }) => {
       title={shortenTitle(route.params.episode.name)}
       showBackButton={true}
       showFavButton={true}
-      onFavPress={() => console.log('Fav button pressed')}
     />
   );
 };
@@ -36,7 +34,6 @@ export const CharacterHeader = ({ route }) => {
       title={shortenTitle(route.params.character.name)}
       showBackButton={true}
       showFavButton={true}
-      onFavPress={() => console.log('Fav button pressed')}
     />
   );
 };
